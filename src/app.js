@@ -9,11 +9,15 @@ const app = express();
 
 app.use(cors());
 
-app.get("/token", (req, res) => {
-  const secret = "$2a$12$kxHyO2./SM/wucbfmSu37.1RdqVbWZEUbFIKT5UF35ze2wfcU6K5m";
+// app.get("/token", (req, res) => {
+//   console.log("appget");
+//   const secret = "$2a$12$kxHyO2./SM/wucbfmSu37.1RdqVbWZEUbFIKT5UF35ze2wfcU6K5m";
 
-  const token = jwt.sign(user, secret);
-  res.send(token);
+//   const token = jwt.sign(user, secret);
+//   res.send(token);
+// });
+app.get("/", (req, res) => {
+  res.json({ message: "api favs" });
 });
 
 //Middleware

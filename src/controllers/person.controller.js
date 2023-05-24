@@ -67,9 +67,22 @@ export const verifyToken = (req, res, next) => {
 //Obtener todos los usuarios
 export const getAllPerson = async (req, res) => {
   try {
-    const person = await prisma.person.findMany();
+    const page = req.query.page || 1;
+    const pageSize = 5;
+    const skip = (page - 1) * pageSize;
+    const person = await prisma.person.findMany({
+      skip: skip,
+      take: pageSize,
+    });
+    const totalCount = await prisma.person.count();
+
+    const totalPages = Math.ceil(totalCount / pageSize);
     if (person.length >= 1) {
-      res.status(200).json(person);
+      res.status(200).json({
+        data: person,
+        page: page,
+        totalPages: totalPages,
+      });
     } else {
       res.status(204).json({ error: true, messageError: "No content" });
     }
