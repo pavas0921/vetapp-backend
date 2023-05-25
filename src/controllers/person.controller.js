@@ -140,7 +140,7 @@ export const createPerson = async (req, res) => {
         idrol,
       },
     });
-    res.status(201).json(person);
+    res.status(201).json({ success: true, person });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: true });
