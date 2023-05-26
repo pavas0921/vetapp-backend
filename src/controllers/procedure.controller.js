@@ -54,6 +54,15 @@ export const getProceduresByHistoryId = async (req, res) => {
       where: {
         idhistory: +idhistory,
       },
+      include: {
+        person: {
+          select: {
+            idperson: true,
+            name: true,
+            last_name: true,
+          },
+        },
+      },
     });
     if (procedure && Object.keys(procedure).length > 0) {
       res.status(200).json(procedure);

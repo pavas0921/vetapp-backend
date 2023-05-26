@@ -45,6 +45,9 @@ export const getPetById = async (req, res) => {
       where: {
         idpet: +id,
       },
+      include: {
+        history: true,
+      },
     });
     if (pet && Object.keys(pet).length > 0) {
       res.status(200).json(pet);
@@ -52,6 +55,7 @@ export const getPetById = async (req, res) => {
       res.status(204).json({ error: true, messageError: "No content" });
     }
   } catch (error) {
+    //console.log(error);
     res.status(500).send({ error });
   }
 };
