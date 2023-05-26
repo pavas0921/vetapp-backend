@@ -7,6 +7,7 @@ import {
   login,
   generateToken,
   verifyToken,
+  getbyName,
 } from "../controllers/person.controller.js";
 
 const router = express.Router();
@@ -19,6 +20,9 @@ router.get("/", verifyToken, getAllPerson);
 
 //Get person by id
 router.get("/:identification", verifyToken, getPersonById);
+
+//Get by name
+router.get("/name/:name", verifyToken, getbyName);
 
 //Create a new person
 router.post("/", verifyToken, createPerson);

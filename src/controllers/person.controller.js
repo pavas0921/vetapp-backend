@@ -93,12 +93,12 @@ export const getAllPerson = async (req, res) => {
 
 //Get one person by identification
 export const getPersonById = async (req, res) => {
-  const { identification } = req.params;
+  const { id } = req.params;
 
   try {
     const person = await prisma.person.findUnique({
       where: {
-        idperson: +idperson,
+        idperson: +id,
       },
     });
     if (Object.keys(person).length > 0) {
@@ -107,7 +107,6 @@ export const getPersonById = async (req, res) => {
       res.status(204).json({ error: true, messageError: "No content" });
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send({ error });
   }
 };
@@ -178,5 +177,32 @@ export const disablePerson = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: true });
+  }
+};
+
+//Obtener por nombre
+export const getbyName = async (req, res) => {
+  try {
+    const { name } = req.params;
+    const person = await prisma.person.findMany({
+      where: {
+        name: {
+          equals: name,
+        },
+      },
+    });
+
+    if (person.length >= 1) {
+      res.status(200).json({
+        data: person,
+      });
+    } else {
+      res.status(200).json({
+        data: "Sin coincidencias",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: true });
+    console.log(error);
   }
 };

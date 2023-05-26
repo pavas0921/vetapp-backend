@@ -16,9 +16,6 @@ app.use(cors());
 //   const token = jwt.sign(user, secret);
 //   res.send(token);
 // });
-app.get("/", (req, res) => {
-  res.json({ message: "api favs" });
-});
 
 //Middleware
 app.use(express.json());
