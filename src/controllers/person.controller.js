@@ -150,10 +150,10 @@ export const createPerson = async (req, res) => {
 //Edit person
 export const updatePerson = async (req, res) => {
   try {
-    const { identification } = req.params;
+    const { id } = req.params;
     const person = await prisma.person.update({
       where: {
-        identification: identification,
+        idperson: +id,
       },
       data: req.body,
     });

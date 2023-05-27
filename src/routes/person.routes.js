@@ -28,6 +28,6 @@ router.get("/name/:name", verifyToken, getbyName);
 router.post("/", verifyToken, createPerson);
 
 //Edit person
-router.put("/:identification", verifyToken, updatePerson);
+router.put("/:id", verifyToken, updatePerson);
 
 export default router;
