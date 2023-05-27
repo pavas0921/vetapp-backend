@@ -1,9 +1,84 @@
 generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model history {
+  idhistory Int         @id @unique(map: "idhistory_UNIQUE") @default(autoincrement())
+  idpet     Int
+  pet       pet         @relation(fields: [idpet], references: [idpet], onDelete: NoAction, onUpdate: NoAction, map: "fk_history_pet")
+  procedure procedure[]
+
+  @@index([idpet], map: "fk_history_pet")
+}
+
+model person {
+  idperson       Int         @id @unique(map: "idperson_UNIQUE") @default(autoincrement())
+  name           String      @db.VarChar(100)
+  last_name      String      @db.VarChar(100)
+  identification String      @unique(map: "identification_UNIQUE") @db.VarChar(45)
+  email          String      @unique(map: "email_UNIQUE") @db.VarChar(45)
+  password       String      @db.VarChar(255)
+  phone          String      @db.VarChar(45)
+  image          String?     @db.VarChar(255)
+  status         Boolean     @db.Bit(1)
+  idrol          Int
+  rol            rol         @relation(fields: [idrol], references: [idrol], onDelete: NoAction, onUpdate: NoAction, map: "fk_person_rol")
+  pet            pet[]
+  procedure      procedure[]
+
+  @@index([idrol], map: "fk_person_rol")
+}
+
+model pet {
+  idpet      Int       @id @default(autoincrement())
+  pet_name   String    @db.VarChar(45)
+  pet_color  String    @db.VarChar(45)
+  pet_age    Int
+  pet_race   String    @db.VarChar(45)
+  pet_specie String    @db.VarChar(45)
+  pet_weight Decimal   @db.Decimal(10, 0)
+  pet_image  String    @db.VarChar(255)
+  pet_status Int
+  idperson   Int?
+  history    history[]
+  person     person?   @relation(fields: [idperson], references: [idperson], onDelete: NoAction, onUpdate: NoAction, map: "fk_pet_person")
+
+  @@index([idperson], map: "fk_pet_person")
+}
+
+model procedure {
+  idprocedure      Int            @id @default(autoincrement())
+  procedure_title  String         @db.VarChar(100)
+  procedure_detail String         @db.VarChar(255)
+  start_date       DateTime       @db.Date
+  end_date         DateTime?      @db.Date
+  attached         String?        @db.VarChar(255)
+  idperson         Int
+  idprocedure_type Int
+  idhistory        Int
+  history          history        @relation(fields: [idhistory], references: [idhistory], onDelete: NoAction, onUpdate: NoAction, map: "fk_procedure_history")
+  person           person         @relation(fields: [idperson], references: [idperson], onDelete: NoAction, onUpdate: NoAction, map: "fk_procedure_person")
+  procedure_type   procedure_type @relation(fields: [idprocedure_type], references: [idprocedure_type], onDelete: NoAction, onUpdate: NoAction, map: "fk_procedure_procedure_type")
+
+  @@index([idhistory], map: "fk_procedure_history")
+  @@index([idperson], map: "fk_procedure_person")
+  @@index([idprocedure_type], map: "fk_procedure_procedure_type")
+}
+
+model procedure_type {
+  idprocedure_type Int         @id @default(autoincrement())
+  procedure_name   String      @db.VarChar(45)
+  procedure        procedure[]
+}
+
+model rol {
+  idrol           Int      @id @default(autoincrement())
+  rol_name        String   @db.VarChar(50)
+  rol_description String   @db.VarChar(45)
+  person          person[]
 }
