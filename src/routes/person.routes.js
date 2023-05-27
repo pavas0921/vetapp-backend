@@ -19,7 +19,7 @@ router.post("/login", login, generateToken);
 router.get("/", verifyToken, getAllPerson);
 
 //Get person by id
-router.get("/:identification", verifyToken, getPersonById);
+router.get("/:id", verifyToken, getPersonById);
 
 //Get by name
 router.get("/name/:name", verifyToken, getbyName);

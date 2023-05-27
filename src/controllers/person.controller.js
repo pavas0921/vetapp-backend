@@ -94,6 +94,7 @@ export const getAllPerson = async (req, res) => {
 //Get one person by identification
 export const getPersonById = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
 
   try {
     const person = await prisma.person.findUnique({
@@ -197,9 +198,7 @@ export const getbyName = async (req, res) => {
         data: person,
       });
     } else {
-      res.status(200).json({
-        data: "Sin coincidencias",
-      });
+      res.status(204).json({ error: true, messageError: "No content" });
     }
   } catch (error) {
     res.status(500).json({ error: true });
