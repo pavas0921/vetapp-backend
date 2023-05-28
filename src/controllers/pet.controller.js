@@ -69,6 +69,7 @@ export const getPetByOwner = async (req, res) => {
     const pet = await prisma.pet.findMany({
       where: {
         idperson: +idperson,
+        pet_status: 1,
       },
     });
     if (pet && Object.keys(pet).length > 0) {

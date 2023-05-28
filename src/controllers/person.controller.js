@@ -71,6 +71,9 @@ export const getAllPerson = async (req, res) => {
     const pageSize = 5;
     const skip = (page - 1) * pageSize;
     const person = await prisma.person.findMany({
+      where: {
+        status: true,
+      },
       skip: skip,
       take: pageSize,
     });
