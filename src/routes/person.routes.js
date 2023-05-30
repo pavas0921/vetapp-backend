@@ -9,11 +9,12 @@ import {
   verifyToken,
   getbyName,
 } from "../controllers/person.controller.js";
+import { sendEmail } from "../controllers/email.controller.js";
 
 const router = express.Router();
 
 //Login
-router.post("/login", login, generateToken);
+router.post("/login", login, generateToken, sendEmail);
 
 //Get all person
 router.get("/", verifyToken, getAllPerson);
