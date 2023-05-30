@@ -9,7 +9,7 @@ import { sendEmail } from "./controllers/email.controller.js";
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
 
 //Middleware
 app.use(express.json());
