@@ -54,7 +54,7 @@ model pet {
 model procedure {
   idprocedure      Int            @id @default(autoincrement())
   procedure_title  String         @db.VarChar(100)
-  procedure_detail String         @db.VarChar(255)
+  procedure_detail String         @db.Text
   start_date       DateTime       @db.Date
   end_date         DateTime?      @db.Date
   attached         String?        @db.VarChar(255)
