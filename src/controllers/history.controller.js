@@ -1,9 +1,19 @@
-import express from "express";
-import { createHistory } from "../controllers/history.controller.js";
-import { verifyToken } from "../controllers/person.controller.js";
+import { PrismaClient } from "@prisma/client";
+import jwt from "jsonwebtoken";
 
-const router = express.Router();
+const prisma = new PrismaClient();
 
-router.post("/", verifyToken, createHistory);
-
-export default router;
+export const createHistory = async (req, res) => {
+  try {
+    const history = await prisma.history.create({
+      data: {
+        idpet: req.body.idpet,
+      },
+    });
+    console.log(history);
+    res.status(201).json(history);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: true });
+  }
+};
