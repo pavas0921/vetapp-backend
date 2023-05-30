@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-export const generateToken = (req, res) => {
+export const generateToken = (req, res, next) => {
   try {
     const { person } = req.body;
     const payload = {
@@ -17,8 +17,13 @@ export const generateToken = (req, res) => {
     };
     const token = jwt.sign(payload, process.env.SECRET, { expiresIn: "1h" });
     payload.token = token;
-    res.status(200).json({ payload });
+    if (token) {
+      req.body.payload = payload;
+      next();
+    }
+    //res.status(200).json({ payload });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: true });
   }
 };
